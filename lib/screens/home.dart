@@ -1,8 +1,11 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 import '../model/todo.dart';
 import '../constants/colors.dart';
 import '../widgets/todo_item.dart';
+import '../utils/todo_SharedPreference.dart';
 
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
@@ -75,7 +78,7 @@ class _HomeState extends State<Home> {
                     right: 20,
                     left: 20,
                   ),
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 20,
                     vertical: 5,
                   ),
@@ -132,12 +135,14 @@ class _HomeState extends State<Home> {
     setState(() {
       todo.isDone = !todo.isDone;
     });
+    TodoSharedPreference.setTodos(todosList);
   }
 
   void _deleteToDoItem(String id) {
     setState(() {
       todosList.removeWhere((item) => item.id == id);
     });
+    TodoSharedPreference.setTodos(todosList);
   }
 
   void _addToDoItem(String toDo) {
@@ -147,6 +152,7 @@ class _HomeState extends State<Home> {
         todoText: toDo,
       ));
     });
+    TodoSharedPreference.setTodos(todosList);
     _todoController.clear();
   }
 
